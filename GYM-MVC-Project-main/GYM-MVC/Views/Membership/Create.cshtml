@@ -1,0 +1,56 @@
+﻿@model GYM_MVC.ViewModels.MembershipViewModels.CreateMembershipViewModel
+
+@{
+    ViewData["Title"] = "Create Membership";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary-dark text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-person me-2"></i>Create Membership
+            </h3>
+        </div>
+
+
+
+        <div class="card-body">
+            <form asp-action="Create" class="card rounded p-4 shadow-sm">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="SelectedMembershipType" class="form-label fw-semibold"></label>
+                   @*  <select asp-for="SelectedMembershipType" asp-items="@Model.MembershipTypeList" class="form-select">
+                        <option value="">-- Select Membership Type --</option>
+                    </select> *@
+                    <input asp-for="SelectedMembershipType" class="form-control" />
+                    <span asp-validation-for="SelectedMembershipType" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label fw-semibold"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DurationInDays" class="form-label fw-semibold"></label>
+                    <input asp-for="DurationInDays" class="form-control" />
+                    <span asp-validation-for="DurationInDays" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-semibold"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                    <button type="submit" class="btn bg-primary-dark">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

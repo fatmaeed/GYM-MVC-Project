@@ -1,0 +1,126 @@
+﻿@model GYM_MVC.ViewModels.MemberViewModels.MemberViewModel
+@{
+    var trainersList = new SelectList(Model.Trainers, "Id", "Name", new { Model.TrainerId });
+    var memberShipsList = new SelectList(Model.Memberships, "Id", "Type", new { Model.MembershipId });
+}
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input asp-for="Name" class="form-control" placeholder=" " />
+            <label asp-for="Name" class="fw-semibold"></label>
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input asp-for="Age" class="form-control" placeholder=" " />
+            <label asp-for="Age" class="fw-semibold"></label>
+            <span asp-validation-for="Age" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <select asp-for="MaritalStatus" class="form-select"
+                    asp-items="Html.GetEnumSelectList<GYM.Domain.Entities.MaritalStatus>()">
+                <option value="">Select Status</option>
+            </select>
+            <label asp-for="MaritalStatus" class="fw-semibold"></label>
+        </div>
+    </div>
+
+    <!-- Health Metrics -->
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input asp-for="Weight" class="form-control" placeholder=" " step="0.1" />
+            <label asp-for="Weight" class="fw-semibold"></label>
+            <span asp-validation-for="Weight" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input asp-for="Height" class="form-control" placeholder=" " step="0.1" />
+            <label asp-for="Height" class="fw-semibold"></label>
+            <span asp-validation-for="Height" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <!-- Health Conditions -->
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input asp-for="Illnesses" class="form-control" placeholder=" " />
+            <label asp-for="Illnesses" class="fw-semibold"></label>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input asp-for="Injuries" class="form-control" placeholder=" " />
+            <label asp-for="Injuries" class="fw-semibold"></label>
+        </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input asp-for="SleepHours" class="form-control" placeholder=" " />
+            <label asp-for="SleepHours" class="fw-semibold"></label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input asp-for="AvailableDays" class="form-control" placeholder=" "
+                   placeholder="e.g. Sun,Tue,Thu" />
+            <label asp-for="AvailableDays" class="fw-semibold"></label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+
+            <select asp-for="TrainerId" class="form-select"
+                    asp-items="@trainersList">
+                <option value="">Select Trainer</option>
+            </select>
+            <label asp-for="TrainerId" class="fw-semibold"></label>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-floating">
+            <select asp-for="MembershipId" class="form-select"
+                    asp-items="@memberShipsList">
+                <option value="">Select MemberShip</option>
+            </select>
+            <label asp-for="MembershipId" class="fw-semibold"></label>
+        </div>
+    </div>
+    <br />
+    <!-- Image Upload -->
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label asp-for="ImageFile" class="form-label fw-semibold"></label>
+            <input asp-for="ImageFile" class="form-control" type="file" />
+            @if (Model != null && !string.IsNullOrWhiteSpace(Model?.ImageFile?.FileName))
+            {
+                <div class="mt-2">
+                    <img src="@Model.ImageFile" alt="Member Image" class="img-thumbnail" width="150" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Approval Status -->
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col-md-3">
+            <div class="form-check form-switch mt-4 pt-2">
+                <input asp-for="IsApproved" class="form-check-input" role="switch" />
+                <label asp-for="IsApproved" class="form-check-label fw-semibold"></label>
+            </div>
+        </div>
+    }
+</div>

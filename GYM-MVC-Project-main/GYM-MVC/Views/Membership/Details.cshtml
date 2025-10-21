@@ -1,0 +1,71 @@
+﻿@model GYM_MVC.ViewModels.MembershipViewModels.DisplayMembershipViewModel
+@{
+    ViewData["Title"] = "Membership Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary-dark text-white d-flex justify-content-between align-items-center">
+            <div>
+                <a asp-action="Index" class="btn btn-light btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                </a>
+            </div>
+            <h2 class="card-title mb-0">
+                <i class="fas fa-id-card-alt me-2"></i>Membership Details
+            </h2>
+       
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="detail-item mb-4">
+                        <h5 class=" mb-3">
+                            <i class="fas fa-tag me-2"></i>Membership Type
+                        </h5>
+                        <p class="fs-5 fw-semibold">@Model.SelectedMembershipType</p>
+                    </div>
+
+                    <div class="detail-item mb-4">
+                        <h5 class=" mb-3">
+                            <i class="fas fa-calendar-alt me-2"></i>Duration
+                        </h5>
+                        <p class="fs-5 fw-semibold">@Model.DurationInDays days</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="detail-item mb-4">
+                        <h5 class=" mb-3">
+                            <i class="fas fa-dollar-sign me-2"></i>Price
+                        </h5>
+                        <p class="fs-5 fw-semibold text-success">$@Model.Price.ToString("N2")</p>
+                    </div>
+
+                    <div class="detail-item mb-4">
+                        <h5 class=" mb-3">
+                            <i class="fas fa-info-circle me-2"></i>Description
+                        </h5>
+                        <p class="fs-5">@Model.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to List
+            </a>
+            <div>
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning me-2">
+                    <i class="fas fa-edit me-1"></i> Edit
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                    <i class="fas fa-trash me-1"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

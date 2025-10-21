@@ -1,0 +1,77 @@
+﻿@model GYM_MVC.ViewModels.ScheduleViewModels.CreateScheduleViewModel
+@{
+    ViewData["Title"] = "Create Schedule";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var daysOfWeek = new List<string>
+    {
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    };
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary-dark text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-calendar-plus me-2"></i>Create New Schedule
+            </h3>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Create" method="post" class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <select asp-for="DayOfWeek" class="form-select">
+                            <option value="">-- Select Day --</option>
+                            @foreach (var day in daysOfWeek)
+                            {
+                                <option value="@day">@day</option>
+                            }
+                        </select>
+                        <label asp-for="DayOfWeek" class="fw-semibold"></label>
+                        <span asp-validation-for="DayOfWeek" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="Time" class="form-control" type="time" />
+                        <label asp-for="Time" class="fw-semibold"></label>
+                        <span asp-validation-for="Time" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-floating">
+                        <input asp-for="ClassName" class="form-control" placeholder=" " />
+                        <label asp-for="ClassName" class="fw-semibold"></label>
+                        <span asp-validation-for="ClassName" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex justify-content-end gap-3 mt-3">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Back to List
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Create Schedule
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

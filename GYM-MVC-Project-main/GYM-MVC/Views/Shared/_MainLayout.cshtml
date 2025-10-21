@@ -1,0 +1,153 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Force Gym</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+    <meta name="description" content="Force Gym - Your premier fitness destination with state-of-the-art facilities and expert trainers">
+    <meta name="keywords" content="gym, fitness, workout, personal training, exercise, health">
+</head>
+<body>
+    @{
+        var userId = User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+    }
+    
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader">
+            <div class="dumbbell">
+                <div class="bar"></div>
+                <div class="weight"></div>
+                <div class="weight"></div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <div class="d-flex flex-column min-vh-100">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-dumbbell me-2"></i>
+                        <span class="brand-text">FOR<span class="brand-highlight">CE</span> GYM</span>
+                    </a>
+
+                  
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse" id="navbarNav">
+                        <ul class="navbar-nav align-items-lg-center ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#schedule">Classes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#trainers">Trainers</a>
+                            </li>
+ 
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#footer">Contact</a>
+                            </li>
+
+                            <li class="nav-item ms-lg-3">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    if (User.IsInRole("Member"))
+                                    {
+                                        <div class="dropdown dropdownBtn">
+                                            <a class="btn rounded-pill dropdown-toggle d-flex align-items-center dropdownBtn" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-user-circle me-2" style="color: #f1f1f1;"></i>
+                                                <strong class="p-2" style="color: #f1f1f1;">@User.Identity.Name</strong>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                                <li><a class="dropdown-item" asp-controller="Member" asp-action="Profile">Profile</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Member" asp-action="ActiveWorkOutPlan"
+                                                       asp-route-id="@userId"><i class="fas fa-dumbbell me-2"></i>Workout Plan</a>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" asp-controller="Member" asp-action="Details" asp-route-id="@userId">Update Profile</a></li>
+
+                                                <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    }
+                            
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold shadow-sm login-btn"
+                                       asp-action="Login" asp-controller="Account">
+                                        Login<i class="fas fa-sign-in-alt ms-2"></i>
+                                    </a>
+
+                                }
+                            </li>
+                           
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container-fluid p-0">
+            <main role="main" class="flex-grow-1">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="bg-dark text-white py-2" id="footer">
+            <div class="container text-center">
+                <div class="d-inline-flex align-items-center mb-1">
+                    <i class="fas fa-dumbbell  me-1" style="font-size: 0.9rem;"></i>
+                    <span class="fw-bold small">FOR<span>CE</span> GYM</span>
+                </div>
+
+                <p class="text-light small mb-0">
+                    Transform your body • &copy; @DateTime.Now.Year Force Gym •
+                    <i class="fas fa-heart text-danger mx-1"></i>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Preloader Script -->
+    <script>
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

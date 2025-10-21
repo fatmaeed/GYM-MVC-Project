@@ -1,0 +1,78 @@
+﻿@model DisplayMembershipViewModel
+@{
+    ViewData["Title"] = "Delete Membership";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-danger">
+        <div class="card-header bg-primary-dark  text-white d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>Delete Membership
+            </h3>
+            <a asp-action="Index" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-arrow-left me-1"></i> Back to List
+            </a>
+        </div>
+
+        <div class="card-body">
+            <div class="alert alert-danger bg-danger-light border-danger" role="alert">
+                <h4 class="alert-heading d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle me-2"></i>Warning!
+                </h4>
+                <p class="mb-0">You are about to permanently delete this membership. This action cannot be undone.</p>
+            </div>
+
+            <div class="membership-details p-4 bg-light rounded">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="detail-item mb-3">
+                            <h5 class="text-danger mb-2">
+                                <i class="fas fa-tag me-2"></i>Membership Type
+                            </h5>
+                            <p class="fs-5 fw-semibold">@Model.SelectedMembershipType</p>
+                        </div>
+
+                        <div class="detail-item mb-3">
+                            <h5 class="text-danger mb-2">
+                                <i class="fas fa-dollar-sign me-2"></i>Price
+                            </h5>
+                            <p class="fs-5 fw-semibold">$@Model.Price.ToString("N2")</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="detail-item mb-3">
+                            <h5 class="text-danger mb-2">
+                                <i class="fas fa-calendar-alt me-2"></i>Duration
+                            </h5>
+                            <p class="fs-5 fw-semibold">@Model.DurationInDays days</p>
+                        </div>
+
+                        <div class="detail-item mb-3">
+                            <h5 class="text-danger mb-2">
+                                <i class="fas fa-info-circle me-2"></i>Description
+                            </h5>
+                            <p class="fs-5">@Model.Description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-between">
+            <form asp-action="DeleteConfirmed" method="post" class="w-100">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-end gap-3">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-1"></i> Confirm Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

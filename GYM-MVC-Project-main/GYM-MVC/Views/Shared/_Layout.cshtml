@@ -1,0 +1,117 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Force Gym</title>
+    @* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> *@
+    @* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Oswald:wght@500;600&display=swap"> *@
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+    @* <link rel="stylesheet" href="~/GYM_MVC.styles.css" asp-append-version="true" /> *@
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+ @*    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">For<span>ce</span></a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand fs-6" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name</a>
+                }
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#schedule">Classes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#trainers">Trainers</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#footer">Contact</a>
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="btn btn-primary rounded-pill" asp-action="Logout" asp-controller="Account">Logout</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary rounded-pill" asp-action="Login" asp-controller="Account">Login</a>
+
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+ *@
+    <div class="container-fluid p-0">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+  @*   <footer class="bg-dark gap-2 pb-4 pt-5 text-white" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4">Force Gym</h5>
+                    <p>Your premier fitness destination with state-of-the-art facilities and expert trainers to help you achieve your fitness goals.</p>
+                    <div class="social-links mt-4">
+                        <a href="#" class="me-3 text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-3 text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-4">Opening Hours</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Monday - Friday: 6:00 AM - 10:00 PM</li>
+                        <li class="mb-2">Saturday: 8:00 AM - 8:00 PM</li>
+                        <li class="mb-2">Sunday: 8:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-4">Contact Us</h5>
+                    <address>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> 123 Fitness Avenue, shibin elkom, monofia</p>
+                        <p><i class="fas fa-phone me-2"></i> 01234567890</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@Forcegym.com</p>
+                    </address>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-md-start text-center">
+                    <p class="mb-0">&copy; @DateTime.Now.Year Force Gym. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center">
+                    <p class="mb-0">Designed with <i class="fas fa-heart text-danger"></i> for fitness enthusiasts</p>
+                </div>
+            </div>
+        </div>
+    </footer> *@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

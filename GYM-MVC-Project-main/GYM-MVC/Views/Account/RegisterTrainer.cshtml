@@ -1,0 +1,260 @@
+﻿@model GYM_MVC.ViewModels.AccountViewModels.RegisterTrainerViewModel
+
+@{
+    ViewData["Title"] = "Register Trainer";
+    Layout = "_AdminLayout";
+}
+
+<div class="trainer-registration-container">
+    <div class="trainer-registration-card">
+        <div class="registration-header">
+            <div class="header-icon">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h2 class="registration-title">Register New Trainer</h2>
+            <p class="registration-subtitle">Complete the form to add a new fitness professional to your team</p>
+        </div>
+
+        <form asp-action="RegisterTheTrainer" asp-controller="Account" class="trainer-registration-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- Profile Section -->
+            <div class="form-section profile-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h4 class="section-title">Professional Profile</h4>
+                </div>
+
+                <div class="profile-image-upload">
+                    <div class="image-preview-container">
+                        <div class="image-preview" id="imagePreview">
+                            <i class="fas fa-user-tie default-icon"></i>
+                            <img id="previewImage" class="preview-image" style="display:none;" />
+                        </div>
+                        <label for="Image" class="upload-btn">
+                            <i class="fas fa-camera"></i> Upload Photo
+                            <input asp-for="Image" type="file" class="form-control file-upload-input" id="Image" accept="image/*" />
+                        </label>
+                        <div class="upload-hint">JPG or PNG, max 2MB</div>
+                    </div>
+                    <span asp-validation-for="Image" class="field-validation-error"></span>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group floating-label">
+                        <div class="input-with-icon">
+                            <i class="fas fa-user input-icon"></i>
+                            <input asp-for="TrainerName" class="form-control" placeholder=" " />
+                            <label asp-for="TrainerName" class="form-label">Full Name</label>
+                        </div>
+                        <span asp-validation-for="TrainerName" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group floating-label">
+                        <div class="input-with-icon">
+                            <i class="fas fa-dumbbell input-icon"></i>
+                            <input asp-for="Specialty" class="form-control" placeholder=" " list="specialtyOptions" />
+                            <label asp-for="Specialty" class="form-label">Specialty</label>
+                            <datalist id="specialtyOptions">
+                                <option>Strength Training</option>
+                                <option>Yoga</option>
+                                <option>Cardio</option>
+                                <option>CrossFit</option>
+                                <option>Pilates</option>
+                                <option>Nutrition</option>
+                                <option>Rehabilitation</option>
+                            </datalist>
+                        </div>
+                        <span asp-validation-for="Specialty" class="field-validation-error"></span>
+                    </div>
+
+
+
+                    <div class="form-group floating-label">
+                        <div class="input-with-icon">
+                            <i class="fas fa-dollar-sign input-icon"></i>
+                            <input asp-for="Salary" class="form-control" type="number" min="0" placeholder=" " />
+                            <label asp-for="Salary" class="form-label">Monthly Salary</label>
+                        </div>
+                        <span asp-validation-for="Salary" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group floating-label full-width">
+                        <div class="input-with-icon">
+                            <i class="fas fa-align-left input-icon"></i>
+                            <textarea asp-for="Bio" class="form-control" placeholder=" " rows="4"></textarea>
+                            <label asp-for="Bio" class="form-label">Professional Bio (Max 250 chars)</label>
+                            <div class="char-counter"><span id="bioCounter">0</span>/250</div>
+                        </div>
+                        <span asp-validation-for="Bio" class="field-validation-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Section -->
+            <div class="form-section account-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h4 class="section-title">Account Information</h4>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group floating-label">
+                        <div class="input-with-icon">
+                            <i class="fas fa-at input-icon"></i>
+                            <input asp-for="Name" class="form-control" placeholder=" " />
+                            <label asp-for="Name" class="form-label">Username</label>
+                        </div>
+                        <span asp-validation-for="Name" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group floating-label">
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input asp-for="Email" class="form-control" type="email" placeholder=" " />
+                            <label asp-for="Email" class="form-label">Email</label>
+                        </div>
+                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group floating-label">
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone input-icon"></i>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder=" " />
+                            <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group floating-label password-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-key input-icon"></i>
+                            <input asp-for="Password" class="form-control" type="password" placeholder=" " data-toggle="tooltip"
+                                   title="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character" />
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength-meter">
+                            <div class="strength-bar"></div>
+                        </div>
+                        <span asp-validation-for="Password" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group floating-label password-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-key input-icon"></i>
+                            <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder=" " />
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                            <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-register">
+                    <i class="fas fa-user-plus"></i> Register Trainer
+                </button>
+                <a asp-action="GetAll" asp-controller="Trainer" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Image preview
+            $('#Image').change(function() {
+                const file = this.files[0];
+                if (file) {
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('File size exceeds 2MB limit');
+                        $(this).val('');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#previewImage').attr('src', e.target.result).show();
+                        $('.default-icon').hide();
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Password toggle
+            $('.toggle-password').click(function() {
+                const input = $(this).closest('.password-group').find('input');
+                const icon = $(this).find('i');
+
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            });
+
+            // Initialize floating labels
+            $('.floating-label .form-control').each(function() {
+                if ($(this).val() !== '') {
+                    $(this).next('.form-label').addClass('active');
+                }
+            });
+
+            // Password strength meter
+            $('input[type="password"]').on('input', function() {
+                const password = $(this).val();
+                const strengthBar = $(this).closest('.password-group').find('.strength-bar');
+                let strength = 0;
+
+                if (password.length > 0) strength += 20;
+                if (password.length >= 8) strength += 20;
+                if (/[A-Z]/.test(password)) strength += 20;
+                if (/[0-9]/.test(password)) strength += 20;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+
+                strengthBar.css('width', strength + '%');
+
+                if (strength < 40) {
+                    strengthBar.css('background-color', '#dc3545');
+                } else if (strength < 80) {
+                    strengthBar.css('background-color', '#ffc107');
+                } else {
+                    strengthBar.css('background-color', '#28a745');
+                }
+            });
+
+            // Bio character counter
+            $('#Bio').on('input', function() {
+                const currentLength = $(this).val().length;
+                $('#bioCounter').text(currentLength);
+
+                if (currentLength > 250) {
+                    $(this).val($(this).val().substring(0, 250));
+                    $('#bioCounter').text(250);
+                }
+            });
+
+            // Initialize tooltips
+            $('[data-toggle="tooltip"]').tooltip({
+                placement: 'top',
+                trigger: 'focus'
+            });
+        });
+    </script>
+}

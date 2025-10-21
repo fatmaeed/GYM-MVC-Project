@@ -1,0 +1,137 @@
+﻿﻿@using GYM_MVC.ViewModels.WorkoutPlansViewModels
+@model DisplayWorkoutPlanVM
+
+@{
+    ViewData["Title"] = "Active Workout Plan";
+    Layout = "_MainLayout";
+}
+
+
+<div class="container py-4 vh-100">
+    <h2 class="section-title mb-4">
+        <i class="fas fa-dumbbell me-2"></i>Workout Plan
+    </h2>
+
+    @if( ! ViewBag.IsApproved)
+    {
+        <div class="d-flex flex-wrap workout-container">
+            <div class="workout-details pe-lg-4" style="width: 40%; max-width: 500px;">
+                <i class="fas fa-info-circle me-2"></i>Your account is still pending approval from the gym owner. Once it's approved, your training plan will be assigned
+
+
+
+            </div>
+        </div>
+        
+    }
+    else if(Model is not null)
+    {
+        <div class="d-flex flex-wrap workout-container">
+            <div class="workout-details pe-lg-4" style="width: 40%; max-width: 500px;">
+                <div class="workout-card h-100">
+                    <h3 class="text-center mb-4">
+                        <i class="fas fa-clipboard-list  me-2"></i>Plan Details
+                    </h3>
+
+                    <div class="mb-3">
+                        <div class="info-label">Plan Name</div>
+                        <div class="info-value">@Model.Name</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="info-label">Description</div>
+                        <div class="info-value">@Model.Description</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="info-label">Start Date</div>
+                            <div class="info-value">@Model.StartDate.ToShortDateString()</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-label">End Date</div>
+                            <div class="info-value">@Model.EndDate.ToShortDateString()</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="info-label">General Instructions</div>
+                        <div class="info-value">@Model.GeneralInfo</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="info-label">Injury Information</div>
+                        <div class="info-value">@(string.IsNullOrEmpty(Model.InjuryInfo) ? "None reported" : Model.InjuryInfo)</div>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-label">Member</div>
+                            <div class="info-value">@Model.MemberName</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-label">Trainer</div>
+                            <div class="info-value">@Model.TrainerName</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-section flex-grow-1 ps-lg-4" style="width: 60%; min-width: 300px;">
+                <div class="exercise-table">
+                    <h3 class="text-center mb-4">
+                        <i class="fas fa-running  me-2"></i>Exercises
+                    </h3>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-black">Exercise</th>
+                                    <th class="text-black">Reps</th>
+                                    <th class="text-black">Sets</th>
+                                    <th class="text-black">Rest</th>
+                                    <th class="text-black">Day</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Exercises)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@item.Name</td>
+                                        <td>@item.Repetitions</td>
+                                        <td>@item.Sets</td>
+                                        <td>@item.RestTime</td>
+                                        <td>@item.DayOfWeek</td>
+                                    </tr>
+                                }
+
+                                @if (!Model.Exercises.Any())
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4 text-muted">
+                                            <i class="fas fa-info-circle me-2"></i>No exercises assigned to this plan
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    }
+    
+    else
+    {
+          <div class="d-flex flex-wrap workout-container">
+            <div class="workout-details pe-lg-4" style="width: 40%; max-width: 500px;">
+                <i class="fas fa-info-circle me-2"></i>Your Trainer hasn't created your training plan yet. Once it's ready, it will appear here
+
+            </div>
+           </div>
+    }
+</div>

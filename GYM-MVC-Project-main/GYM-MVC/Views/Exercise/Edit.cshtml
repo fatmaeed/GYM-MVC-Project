@@ -1,0 +1,172 @@
+﻿@model GYM_MVC.ViewModels.ExerciseViewModels.EditExerciseVM
+@{
+    ViewData["Title"] = "Edit Exercise";
+    Layout = "~/Views/Shared/_TrainerLayout.cshtml";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary-dark text-white py-3">
+                    <h2 class="h4 mb-0 text-center"><i class="fas fa-edit me-2"></i>Edit Exercise</h2>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Edit" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
+                        <input type="hidden" asp-for="WorkoutPlanId" />
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="MemberId" />
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Exercise Name" required />
+                            <label asp-for="Name" class="form-label">Exercise Name</label>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                            <div class="invalid-feedback">
+                                Please provide an exercise name.
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Repetitions" class="form-control" placeholder="Repetitions" type="number" min="1" required />
+                                    <label asp-for="Repetitions" class="form-label">Repetitions</label>
+                                    <span asp-validation-for="Repetitions" class="text-danger small"></span>
+                                    <div class="invalid-feedback">
+                                        Please enter valid repetitions (minimum 1).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Sets" class="form-control" placeholder="Sets" type="number" min="1" required />
+                                    <label asp-for="Sets" class="form-label">Sets</label>
+                                    <span asp-validation-for="Sets" class="text-danger small"></span>
+                                    <div class="invalid-feedback">
+                                        Please enter valid sets (minimum 1).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="RestTime" class="form-control" placeholder="Rest Time" type="number" min="0" required />
+                                    <label asp-for="RestTime" class="form-label">Rest Time (seconds)</label>
+                                    <span asp-validation-for="RestTime" class="text-danger small"></span>
+                                    <div class="invalid-feedback">
+                                        Please enter valid rest time.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select asp-for="DayOfWeek" class="form-select" required>
+                                        <option value="">-- Select Day --</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                    <label asp-for="DayOfWeek" class="form-label">Day of Week</label>
+                                    <span asp-validation-for="DayOfWeek" class="text-danger small"></span>
+                                    <div class="invalid-feedback">
+                                        Please select a day.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" asp-route-WorkOutPlanId="@Model.WorkoutPlanId" class="btn btn-outline-secondary me-md-2 px-4">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary-dark px-4">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .form-floating label {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .form-control, .form-select {
+            border-radius: 0.375rem;
+            padding: 1rem 1.25rem;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--primary-dark);
+                box-shadow: 0 0 0 0.25rem rgba(255, 71, 87, 0.25);
+            }
+
+        .card {
+            border: none;
+            overflow: hidden;
+        }
+
+        .rounded-3 {
+            border-radius: 1rem !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        (function () {
+            'use strict'
+
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
+        document.getElementById('Repetitions').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.getElementById('Sets').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.getElementById('RestTime').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dayOfWeek = '@Model.DayOfWeek';
+            if (dayOfWeek) {
+                document.getElementById('DayOfWeek').value = dayOfWeek;
+            }
+        });
+    </script>
+}

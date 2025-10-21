@@ -1,0 +1,205 @@
+﻿@model GYM_MVC.ViewModels.WorkoutPlansViewModels.EditWorkoutPlanVM
+@{
+    ViewData["Title"] = "Edit Workout Plan";
+    Layout = "~/Views/Shared/_TrainerLayout.cshtml";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary-dark text-white py-3">
+                    <h2 class="h4 mb-0"><i class="fas fa-edit me-2"></i>Edit Workout Plan</h2>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Edit" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
+
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="MemberId" />
+                        <input type="hidden" asp-for="TrainerId" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <input asp-for="Name" class="form-control" placeholder="Plan Name" required />
+                                    <label asp-for="Name" class="form-label">
+                                        <i class="fas fa-tag me-2 "></i>Plan Name
+                                    </label>
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+
+                               
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input asp-for="StartDate" class="form-control" type="date" required />
+                                            <label asp-for="StartDate" class="form-label">
+                                                <i class="fas fa-calendar-alt me-2 "></i>Start Date
+                                            </label>
+                                            <span asp-validation-for="StartDate" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input asp-for="EndDate" class="form-control" type="date" required />
+                                            <label asp-for="EndDate" class="form-label">
+                                                <i class="fas fa-calendar-alt me-2 "></i>End Date
+                                            </label>
+                                            <span asp-validation-for="EndDate" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating mb-4">
+                                    <textarea asp-for="GeneralInfo" class="form-control" placeholder="General Information"
+                                              style="height: 120px"></textarea>
+                                    <label asp-for="GeneralInfo" class="form-label">
+                                        <i class="fas fa-info-circle me-2 "></i>General Information
+                                    </label>
+                                    <span asp-validation-for="GeneralInfo" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating mb-4">
+                                    <textarea asp-for="Description" class="form-control" placeholder="Description"
+                                              style="height: 100px" required></textarea>
+                                    <label asp-for="Description" class="form-label">
+                                        <i class="fas fa-align-left me-2 "></i>Description
+                                    </label>
+                                    <span asp-validation-for="Description" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-floating mb-4">
+                                    <textarea asp-for="InjuryInfo" class="form-control" placeholder="Injury Information"
+                                              style="height: 140px"></textarea>
+                                    <label asp-for="InjuryInfo" class="form-label">
+                                        <i class="fas fa-first-aid me-2 "></i>Injury Considerations
+                                    </label>
+                                    <span asp-validation-for="InjuryInfo" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-controller="Trainer" asp-action="GetMemberWithWorkoutPlans" asp-route-id="@Model.MemberId"
+                               class="btn btn-outline-secondary px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Plans
+                            </a>
+                            <button type="submit" class="btn btn-primary-dark px-4" id="submitBtn">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .form-floating label {
+            color: #495057;
+            font-weight: 500;
+            padding-left: 2.5rem;
+        }
+
+        .form-floating .form-control,
+        .form-floating .form-select {
+            border-radius: 0.5rem;
+            padding-left: 2.5rem;
+            height: calc(3.5rem + 2px);
+        }
+
+        .form-floating textarea.form-control {
+            height: auto !important;
+            padding-top: 1.625rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 0 0.25rem rgba(255, 71, 87, 0.25);
+        }
+
+        .card {
+            border: none;
+            overflow: hidden;
+        }
+
+        .rounded-3 {
+            border-radius: 1rem !important;
+        }
+
+        .invalid-feedback {
+            padding-left: 2.5rem;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Enhanced form validation
+        (function () {
+            'use strict';
+
+            const form = document.getElementById('workoutPlanForm');
+
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+
+            // Disable button during submission to prevent duplicate submissions
+            form.addEventListener('submit', function() {
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
+            });
+        })();
+
+        // Date validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            const startDate = document.getElementById('StartDate');
+            const endDate = document.getElementById('EndDate');
+
+            // Set minimum dates
+            startDate.min = today;
+            endDate.min = today;
+
+            // Start date change handler
+            startDate.addEventListener('change', function() {
+                endDate.min = this.value;
+                if (endDate.value && new Date(endDate.value) < new Date(this.value)) {
+                    endDate.value = this.value;
+                }
+            });
+
+            // End date change handler
+            endDate.addEventListener('change', function() {
+                if (startDate.value && new Date(this.value) < new Date(startDate.value)) {
+                    this.value = startDate.value;
+                }
+            });
+
+            // Initialize with model values
+            if ('@Model.StartDate' !== '') {
+                startDate.value = '@Model.StartDate.ToString("yyyy-MM-dd")';
+                endDate.min = startDate.value;
+            }
+            if ('@Model.EndDate' !== '') {
+                endDate.value = '@Model.EndDate.ToString("yyyy-MM-dd")';
+            }
+        });
+    </script>
+}

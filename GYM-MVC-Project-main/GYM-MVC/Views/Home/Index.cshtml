@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewData["Title"] = "ForceGym";
+    Layout = "_MainLayout";
+    var trainers = ViewBag.Trainers as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>();
+    var scheduleTable = ViewBag.ScheduleTable as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>();
+
+    string Cell(object? value) => string.IsNullOrWhiteSpace(value?.ToString()) ? "-" : value!.ToString()!;
+}
+
+<section class="hero-section">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80');"></div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content animate">
+                <h1 class="display-3 fw-bold mb-4 text-white">Transform Your <span class="text-primary">Body</span></h1>
+                <p class="lead mb-5 text-white">Join the most elite fitness community in the city and start your transformation journey today with our expert trainers and state-of-the-art facilities.</p>
+                <div class="d-flex gap-3">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                     <a asp-action="Register" asp-controller="Account" class="btn btn-primary btn-lg rounded-pill px-4 py-3">Join Now</a>
+
+                    }
+                    <a href="#schedule" class="btn btn-outline-light btn-lg rounded-pill px-4 py-3">View Schedule</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-4 animate delay-1">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell fa-3x"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Modern Equipment</h3>
+                    <p class="mb-0">Cutting-edge fitness equipment from leading brands to maximize your workout efficiency.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate delay-2">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie fa-3x"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Expert Trainers</h3>
+                    <p class="mb-0">Certified professionals with years of experience to guide you through your fitness journey.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate delay-3">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heartbeat fa-3x"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Personalized Plans</h3>
+                    <p class="mb-0">Custom workout and nutrition plans tailored to your specific goals and body type.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="schedule" class="py-5">
+    <div class="container py-5">
+        <h2 class="section-title text-center">Class Schedule</h2>
+        <p class="lead mb-5 text-center">
+           <div class="table-responsive animate">
+            <table class="table-bordered table-hover table text-center align-middle">
+                <thead class="table-dark text-bg-dark">
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in scheduleTable)
+                    {
+                        <tr>
+                                <td class="fw-bold">@row.Time</td>
+                            <td>@Cell(row.Monday)</td>
+                            <td>@Cell(row.Tuesday)</td>
+                            <td>@Cell(row.Wednesday)</td>
+                            <td>@Cell(row.Thursday)</td>
+                            <td>@Cell(row.Friday)</td>
+                            <td>@Cell(row.Saturday)</td>
+                            <td>@Cell(row.Sunday)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section id="trainers" class="bg-dark text-light py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Meet Our Trainers</h2>
+        <div class="row g-4">
+            @foreach (var trainer in trainers)
+            {
+                <div class="col-md-4 col-lg-3">
+                    <div class="text-dark h-100 rounded bg-white p-4 text-center shadow">
+                        <img src="@trainer.ImagePath" class="rounded-circle mb-3" alt="@trainer.Name" style="width: 120px; height: 120px; object-fit: cover;" />
+                        <h5 class="fw-bold">@trainer.Name</h5>
+                        <p class="text-muted">@trainer.Specialty</p>
+
+                        <p>@trainer.Bio</p>
+                       
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="location" class="py-5">
+    <div class="container py-5">
+        <h2 class="section-title text-center">Our Location</h2>
+        <p class="lead mb-5 text-center">Visit us at our state-of-the-art facility</p>
+
+        <div class="row g-4">
+            <div class="col-lg-6 animate">
+                <div class="location-info">
+                    <h4 class="mb-4">Force  Gym</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-map-marker-alt text me-3"></i>
+                            <span>123 Fitness Avenue, shibin elkom, monofia</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-phone text me-3"></i>
+                            <span>01234567890</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-envelope text me-3"></i>
+                            <span>info@Forcegym.com</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-clock text me-3"></i>
+                            <div>
+                                <p class="mb-1">Monday-Friday: 6:00 AM - 10:00 PM</p>
+                                <p class="mb-1">Saturday: 8:00 AM - 8:00 PM</p>
+                                <p class="mb-0">Sunday: 8:00 AM - 6:00 PM</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 animate delay-1">
+                <div class="ratio ratio-16x9">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3432.9448384108843!2d30.55918407557628!3d30.55905459666045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14587e60b3cd2c01%3A0x38dd7a9ed753eec9!2z2YXYtdmG2Lkg2KfZhNmF2K_Yp9iqINin2YTYr9in2LHYp9iq!5e0!3m2!1sen!2seg!4v1717836907382!5m2!1sen!2seg"
+                            width="100%"
+                            height="450"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

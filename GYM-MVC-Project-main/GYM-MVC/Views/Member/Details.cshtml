@@ -1,0 +1,32 @@
+﻿﻿@using System.Security.Claims
+@model GYM_MVC.ViewModels.MemberViewModels.MemberViewModel
+@{
+    ViewData["Title"] = "Member Details";
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if(User.IsInRole("Member")) {
+        Layout = "~/Views/Shared/_MainLayout.cshtml";
+    }
+}
+
+<div class="container-fluid p-3">
+    <h2 class="mb-4 text-center text-danger">Update Member</h2>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="row g-3">
+        <input type="hidden" asp-for="Id" />
+        <partial name="_MemberFormFields" />
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-outline-danger px-5">Update</button>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Index" class="btn btn-secondary ms-2">Back</a>
+            }
+            else
+            {
+                <a asp-action="ActiveWorkOutPlan" asp-controller="Member" asp-route-id="@User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value" class="btn btn-secondary ms-2">Back</a>
+
+            }
+        </div>
+    </form>
+</div>

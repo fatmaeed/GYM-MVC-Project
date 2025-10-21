@@ -1,0 +1,116 @@
+﻿@using GYM_MVC.Core.Entities
+@using GYM_MVC.Core.Helper
+@using GYM_MVC.ViewModels.AccountViewModels
+@model RegisterMemberFromAdmin
+
+@{
+    ViewData["Title"] = "Add Member";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    SelectList trainerList = new SelectList(Model.AvailableTrainers, "Id", "Name");
+    SelectList membershipList = new SelectList(Model.AvailableMemberships, "Id", "SelectedMembershipType");
+
+}
+
+<h2 class="mb-4 text-center">Add Member</h2>
+
+<form asp-action="RegisterTheMemberFromAdmin" asp-controller="Account" enctype="multipart/form-data" class="row g-3">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="col-md-6">
+        <label asp-for="MemberName" class="form-label"></label>
+        <input asp-for="MemberName" class="form-control" />
+        <span asp-validation-for="MemberName" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="BirthDate" class="form-label"></label>
+        <input asp-for="BirthDate" class="form-control" />
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="MaterialStatus" class="form-label"></label>
+        <select asp-for="MaterialStatus" class="form-select"
+                asp-items="@Model.MaterialStatusList">
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Weight" class="form-label"></label>
+        <input asp-for="Weight" class="form-control" step="0.1" />
+        <span asp-validation-for="Weight" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Height" class="form-label"></label>
+        <input asp-for="Height" class="form-control" step="0.1" />
+        <span asp-validation-for="Height" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Illnesses" class="form-label"></label>
+        <input asp-for="Illnesses" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Injuries" class="form-label"></label>
+        <input asp-for="Injuries" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="SleepHours" class="form-label"></label>
+        <input asp-for="SleepHours" class="form-control" />
+    </div>
+
+    <div class="col-md-9">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <div class="col-md-9">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="row mt-3">
+        <div class="col-6">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" />
+        </div>
+        <div class="col-6">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+        </div>
+    </div>
+ 
+    <div class="col-md-9">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Image" class="form-label"></label>
+        <input asp-for="Image" class="form-control" type="file" />
+        @*     @if (Model != null && !string.IsNullOrWhiteSpace(Model.ImagePath))
+    {
+        <img src="@Model.ImagePath" alt="Member Image" width="150" />
+    }
+ *@
+    </div>
+    <div class="row mt-3">
+    <div class="col-6">
+        <label asp-for="SelectedTrainerId" class="form-label"></label>
+        <select asp-items="trainerList" asp-for="SelectedTrainerId" class="form-select"> </select>
+    </div>
+    <div class="col-6">
+        <label asp-for="SelectedMembershipId" class="form-label"></label>
+        <select asp-items="membershipList" asp-for="SelectedMembershipId" class="form-select"> </select>
+    </div>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="IsApproved" class="form-check-label d-block mb-2"></label>
+        <input asp-for="IsApproved" class="form-check-input" />
+    </div>
+ 
+    <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary px-5">Save</button>
+        <a asp-controller="Member" asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
+</form>

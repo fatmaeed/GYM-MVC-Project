@@ -1,0 +1,106 @@
+﻿@model GYM_MVC.ViewModels.WorkoutPlansViewModels.CreateWorkoutPlanVM
+
+@{
+    ViewData["Title"] = "Create Workout Plan";
+    Layout = "~/Views/Shared/_TrainerLayout.cshtml";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary-dark text-white py-3">
+                    <h2 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Create Workout Plan</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <input type="hidden" asp-for="MemberId" value="@ViewBag.MemberId" />
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Name" class="form-label fw-bold"></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Enter plan name" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="StartDate" class="form-label fw-bold"></label>
+                                    <input asp-for="StartDate" class="form-control" type="date" />
+                                    <span asp-validation-for="StartDate" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="GeneralInfo" class="form-label fw-bold"></label>
+                                    <textarea asp-for="GeneralInfo" class="form-control" rows="3" placeholder="General information about the plan"></textarea>
+                                    <span asp-validation-for="GeneralInfo" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Description" class="form-label fw-bold"></label>
+                                    <textarea asp-for="Description" class="form-control" rows="2" placeholder="Brief description"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="EndDate" class="form-label fw-bold"></label>
+                                    <input asp-for="EndDate" class="form-control" type="date" />
+                                    <span asp-validation-for="EndDate" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="InjuryInfo" class="form-label fw-bold"></label>
+                                    <textarea asp-for="InjuryInfo" class="form-control" rows="3" placeholder="Any injury considerations"></textarea>
+                                    <span asp-validation-for="InjuryInfo" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4 d-flex justify-content-between">
+                            <a asp-controller="Trainer" asp-action="GetMemberWithWorkoutPlans" asp-route-id="@ViewBag.MemberId"
+                               class="btn btn-outline-secondary px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-primary-dark px-4">
+                                <i class="fas fa-arrow-right me-2"></i>Next
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById('StartDate').addEventListener('change', function() {
+            const endDateField = document.getElementById('EndDate');
+            endDateField.min = this.value;
+
+            if (endDateField.value && new Date(endDateField.value) < new Date(this.value)) {
+                endDateField.value = this.value;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('StartDate').min = today;
+
+            const startDateValue = document.getElementById('StartDate').value;
+            if (startDateValue) {
+                document.getElementById('EndDate').min = startDateValue;
+            } else {
+                document.getElementById('EndDate').min = today;
+            }
+        });
+    </script>
+}

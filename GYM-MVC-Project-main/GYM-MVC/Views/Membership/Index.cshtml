@@ -1,0 +1,72 @@
+﻿@model IEnumerable<GYM_MVC.ViewModels.MembershipViewModels.DisplayMembershipViewModel>
+@{
+    ViewData["Title"] = "Membership List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary-dark text-white d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-id-card-alt me-2"></i>Membership Plans
+            </h3>
+            <a asp-action="Create" class="btn btn-light">
+                <i class="fas fa-plus me-1"></i> Create New
+            </a>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th>Membership Type</th>
+                            <th>Price</th>
+                            <th>Duration</th>
+                            <th>Description</th>
+                            <th style="width: 200px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@item.SelectedMembershipType</td>
+                                <td class="text-success fw-bold">$@item.Price.ToString("N2")</td>
+                                <td>@item.DurationInDays days</td>
+                                <td class="text-truncate" style="max-width: 250px;" title="@item.Description">
+                                    @item.Description
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Details" asp-route-id="@item.Id"
+                                           class="btn btn-outline" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Update" asp-route-id="@item.Id"
+                                           class="btn btn-outline" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="btn btn-outline" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="card-footer text-center text-muted py-4">
+                <i class="fas fa-id-card fa-3x mb-3 text-muted"></i>
+                <h5>No Membership Plans Found</h5>
+                <p class="mb-0">Click the "Create New" button to add your first membership plan</p>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,112 @@
+﻿@model GYM_MVC.ViewModels.TrainerViewModels.EditTrainerVM
+
+@{
+    ViewData["Title"] = "Edit Trainer";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="trainer-form-container">
+    <div class="form-card">
+        <div class="card-header bg-primary-dark elegant-header">
+            <h2 class="text-white"><i class="fas fa-user-edit"></i> Edit Trainer</h2>
+            <a asp-action="GetAll" class="btn btn-back">
+                Back to List <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Edit" asp-route-id="@Model.Id" enctype="multipart/form-data" class="trainer-form">
+                @* Hidden ID field *@
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly" class="validation-summary elegant-validation"></div>
+
+                <div class="form-grid">
+                    <div class="form-group elegant-group">
+                        <label asp-for="Name" class="elegant-label"></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input asp-for="Name" class="elegant-input" placeholder="Enter trainer name" />
+                        </div>
+                        <span asp-validation-for="Name" class="elegant-error"></span>
+                    </div>
+
+                    <div class="form-group elegant-group">
+                        <label asp-for="Specialty" class="elegant-label"></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-star input-icon"></i>
+                            <input asp-for="Specialty" class="elegant-input" placeholder="e.g., Weight Training, Yoga" />
+                        </div>
+                        <span asp-validation-for="Specialty" class="elegant-error"></span>
+                    </div>
+
+                    <div class="form-group elegant-group">
+                        <label asp-for="Salary" class="elegant-label"></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-dollar-sign input-icon"></i>
+                            <input asp-for="Salary" class="elegant-input" placeholder="6000 - 50000" />
+                        </div>
+                        <span asp-validation-for="Salary" class="elegant-error"></span>
+                    </div>
+
+                    <div class="form-group elegant-group">
+                        <label asp-for="ImageFile" class="elegant-label">Profile Photo</label>
+                        <div class="image-upload elegant-upload">
+                            <label class="upload-label">
+                                <input asp-for="ImageFile" id="ImageFile" type="file" class="upload-input" accept="image/*" />
+                                <div class="upload-preview">
+                                    <img id="imagePreview" src="@Model.ImagePath" alt="Trainer Preview" />
+                                    <div class="upload-overlay">
+                                        <i class="fas fa-camera-retro"></i>
+                                        <span>Click to upload</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <span asp-validation-for="ImageFile" class="elegant-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group elegant-group bio-group">
+                    <label asp-for="Bio" class="elegant-label"></label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-edit input-icon bio-icon"></i>
+                        <textarea asp-for="Bio" class="elegant-textarea" rows="4" placeholder="Enter trainer bio (max 200 characters)"></textarea>
+                    </div>
+                    <span asp-validation-for="Bio" class="elegant-error"></span>
+                </div>
+
+                <div class="form-actions elegant-actions">
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <button type="reset" class="btn btn-reset">
+                        <i class="fas fa-undo"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('ImageFile').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "/images/default-trainer.jpg";
+            }
+        });
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

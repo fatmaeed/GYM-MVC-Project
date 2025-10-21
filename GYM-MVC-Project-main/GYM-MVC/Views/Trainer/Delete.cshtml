@@ -1,0 +1,57 @@
+﻿@model GYM_MVC.ViewModels.TrainerViewModels.DisplayTrainerVM
+
+@{
+    ViewData["Title"] = "Delete Trainer";
+    Layout = "_AdminLayout";
+}
+
+<div class="delete-confirmation-container">
+    <div class="delete-confirmation-card">
+        <div class="confirmation-header">
+            <i class="fas fa-exclamation-triangle warning-icon"></i>
+            <h2 class="confirmation-title">Confirm Deletion</h2>
+        </div>
+
+        <div class="confirmation-body">
+            <p class="confirmation-message">Are you sure you want to permanently delete trainer <strong>@Model?.Name</strong>?</p>
+            <p class="confirmation-warning"><i class="fas fa-exclamation-circle"></i> This action cannot be undone.</p>
+
+            <div class="trainer-details">
+                <div class="trainer-image-container">
+                    <img src="@Model.ImagePath" class="trainer-image" alt="@Model.Name" />
+                </div>
+
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value">@Model.Name</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Specialty:</span>
+                        <span class="detail-value">@Model.Specialty</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bio:</span>
+                        <span class="detail-value">@Model.Bio</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Salary:</span>
+                        <span class="detail-value">$@Model.Salary.ToString("N2")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="confirmation-actions">
+            <form asp-action="Delete" class="delete-form">
+                <button type="submit" class="btn btn-danger btn-delete">
+                    <i class="fas fa-trash-alt"></i> Confirm Delete
+                </button>
+                <a asp-action="GetAll" class="btn btn-secondary btn-cancel">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+

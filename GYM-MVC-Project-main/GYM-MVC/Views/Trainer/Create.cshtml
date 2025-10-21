@@ -1,0 +1,192 @@
+﻿@using GYM_MVC.ViewModels.TrainerViewModels
+@model CreateTrainerVM
+@{
+    ViewData["Title"] = "Add New Trainer";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="trainer-form-container">
+    <div class="form-card">
+        <div class="card-header bg-primary-dark elegant-header">
+            <div class="header-content">
+                <div class="header-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="header-text">
+                    <h2>Add New Trainer</h2>
+                    <p>Fill in the details below to create a new trainer profile</p>
+                </div>
+            </div>
+            <a asp-action="GetAll" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+
+        <div class="card-body">
+            <form asp-action="Create" enctype="multipart/form-data" class="trainer-form">
+                <div asp-validation-summary="ModelOnly" class="validation-summary elegant-validation"></div>
+
+                <div class="form-grid">
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-id-card"></i>
+                            <h3>Personal Information</h3>
+                        </div>
+
+                        <div class="form-group elegant-group">
+                            <label asp-for="Name" class="elegant-label"></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input asp-for="Name" class="elegant-input" placeholder="Enter trainer name" />
+                            </div>
+                            <span asp-validation-for="Name" class="elegant-error"></span>
+                        </div>
+
+                        <div class="form-group elegant-group">
+                            <label asp-for="Specialty" class="elegant-label"></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-star input-icon"></i>
+                                <select asp-for="Specialty" class="elegant-input">
+                                    <option value="">Select specialty</option>
+                                    <option value="Weight Training">Weight Training</option>
+                                    <option value="Yoga">Yoga</option>
+                                    <option value="Cardio">Cardio</option>
+                                    <option value="CrossFit">CrossFit</option>
+                                    <option value="Pilates">Pilates</option>
+                                    <option value="Martial Arts">Martial Arts</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="Specialty" class="elegant-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Financial Information Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h3>Financial Information</h3>
+                        </div>
+
+                        <div class="form-group elegant-group">
+                            <label asp-for="Salary" class="elegant-label"></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-dollar-sign input-icon"></i>
+                                <input asp-for="Salary" class="elegant-input" placeholder="6000 - 50000" type="number" min="6000" max="50000" />
+                                <span class="input-currency">$</span>
+                            </div>
+                            <span asp-validation-for="Salary" class="elegant-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Profile Image Section -->
+                    <div class="form-section image-section">
+                        <div class="section-header">
+                            <i class="fas fa-camera"></i>
+                            <h3>Profile Image</h3>
+                        </div>
+
+                        <div class="form-group elegant-group">
+                            <div class="image-upload elegant-upload">
+                                <label class="upload-label">
+                                    <input asp-for="ImageFile" type="file" class="upload-input" accept="image/*" />
+                                    <div class="upload-preview">
+                                        <img id="imagePreview" src="/images/default-trainer.jpg" alt="Trainer Preview" />
+                                        <div class="upload-overlay">
+                                            <i class="fas fa-camera-retro"></i>
+                                            <span>Click to upload</span>
+                                        </div>
+                                    </div>
+                                </label>
+                                <div class="upload-requirements">
+                                    <small>Recommended: 500x500px, JPG/PNG (max 2MB)</small>
+                                </div>
+                            </div>
+                            <span asp-validation-for="ImageFile" class="elegant-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio Section -->
+                <div class="form-section bio-section">
+                    <div class="section-header">
+                        <i class="fas fa-edit"></i>
+                        <h3>Biography</h3>
+                    </div>
+
+                    <div class="form-group elegant-group bio-group">
+                        <div class="input-wrapper">
+                            <textarea asp-for="Bio" class="elegant-textarea" rows="4"
+                                      placeholder="Enter trainer bio (max 200 characters)"
+                                      maxlength="200"></textarea>
+                            <div class="char-counter"><span id="charCount">0</span>/200</div>
+                        </div>
+                        <span asp-validation-for="Bio" class="elegant-error"></span>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions elegant-actions">
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-save"></i> Create Trainer
+                    </button>
+                    <button type="reset" class="btn btn-reset">
+                        <i class="fas fa-undo"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        document.getElementById('ImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const reader = new FileReader();
+
+            if (file && file.size > 2 * 1024 * 1024) {
+                alert('File size exceeds 2MB limit. Please choose a smaller file.');
+                this.value = ''; // Clear the file input
+                preview.src = "/images/default-trainer.jpg";
+                return;
+            }
+
+            reader.onloadend = function() {
+                preview.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "/images/default-trainer.jpg";
+            }
+        });
+
+        document.getElementById('Bio').addEventListener('input', function() {
+            const charCount = this.value.length;
+            document.getElementById('charCount').textContent = charCount;
+
+            const counter = document.querySelector('.char-counter span');
+            if (charCount > 180) {
+                counter.style.color = '#e53e3e';
+            } else if (charCount > 150) {
+                counter.style.color = '#dd6b20';
+            } else {
+                counter.style.color = '#a0aec0';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bioTextarea = document.getElementById('Bio');
+            document.getElementById('charCount').textContent = bioTextarea.value.length;
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
